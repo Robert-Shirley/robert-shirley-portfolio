@@ -1,118 +1,212 @@
+import EtchASketch from "@/components/EtchASketch/EtchASketch";
+import RockPaperScissors from "@/components/RockPaperScissors/RockPaperScissors";
+import Card from "@/components/shared/Card";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import Link from "next/link";
+import { useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const projects = [
+  {
+    id: 1,
+    name: "Recipes",
+    description: "A simple recipe app with images, lists, and navigation",
+    link: "/projects/recipes",
+    odinLink: "https://www.theodinproject.com/lessons/foundations-recipes",
+    images: [
+      "/images/projects/recipeIndex.png",
+      "/images/projects/recipePage.png",
+      "/images/projects/recipeIndex2.png",
+      "/images/projects/recipeIndex3.png",
+    ],
+    showImages: true,
+    showComponent: false,
+    component: null,
+  },
+  {
+    id: 2,
+    name: "Landing Page",
+    description:
+      "A simple landing page with a header/navbar, hero section, images, quote, call to action, and a footer.",
+    link: "/projects/landing-page",
+    odinLink: "https://www.theodinproject.com/lessons/landing-page",
+    images: [
+      "/images/projects/landingIndex.png",
+      "/images/projects/landingIndex2.png",
+    ],
+    showImages: true,
+    showComponent: false,
+    component: null,
+  },
+  {
+    id: 3,
+    name: "Rock Paper Scissors",
+    description: "A simple rock paper scissors game with a win/loss counter",
+    link: "/projects/rock-paper-scissors",
+    odinLink:
+      "https://www.theodinproject.com/lessons/foundations-rock-paper-scissors",
+    showComponent: true,
+    component: <RockPaperScissors isComponent={true} />,
+    showImages: false,
+    images: [],
+  },
+  {
+    id: 4,
+    name: "Etch a Sketch",
+    description:
+      "A cool etch a sketch app with a customizable grid, color mode, and color picker",
+    link: "/projects/etch-a-sketch",
+    odinLink:
+      "https://www.theodinproject.com/lessons/foundations-etch-a-sketch",
+    showComponent: true,
+    component: <EtchASketch isComponent={true} />,
+    showImages: false,
+    images: [],
+  },
+];
+
+type Project = {
+  id: number;
+  name: string;
+  description: string;
+  link: string;
+  images?: string[];
+  odinLink: string;
+  showImages?: boolean;
+  showComponent?: boolean;
+  component?: JSX.Element | null;
+};
+
+const ProjectRow = ({ project }: { project: Project }) => {
+  const [selectedImage, setSelectedImage] = useState(0);
+  const imageCount = project.images?.length || 0;
+
+  const handleNextImage = () => {
+    setSelectedImage((prevIndex) =>
+      project.images && prevIndex < project.images.length - 1
+        ? prevIndex + 1
+        : 0
+    );
+  };
+
+  const handlePrevImage = () => {
+    setSelectedImage((prevIndex) =>
+      project.images && prevIndex > 0 ? prevIndex - 1 : imageCount - 1
+    );
+  };
+
+  return project.showImages ? (
+    <Link href={project.link} className="w-full h-full">
+      <Card className="h-full flex flex-col">
+        <div className="w-full h-full flex items-center justify-center flex-col">
+          <div className="text-2xl font-bold mt-4">{project.name}</div>
+          <p className="mt-2 text-center text-gray-700 max-w-lg">
+            {project.description}
+          </p>
+          <div className="my-8">
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(project.odinLink, "_blank");
+              }}
+              className="text-md font-light underline text-gray-700 cursor-pointer"
+            >
+              View in the Odin Project
+            </div>
+          </div>
+          <h1 className="text-center text-lg text-gray-500">Project Images</h1>
+
+          {project.images && project.images.length > 0 && (
+            <div className="relative w-48 h-48 xl:w-96 xl:h-96">
+              <Image
+                onClick={(e) => e.preventDefault()}
+                src={project.images[selectedImage]}
+                alt={project.name}
+                fill
+                className="object-cover rounded-lg cursor-default"
+              />
+              <div className="absolute inset-0 rounded-lg border border-gray-200 pointer-events-none" />
+              <div
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePrevImage();
+                }}
+              >
+                <ChevronLeftIcon className="h-5 w-5 text-white" />
+              </div>
+              <div
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full p-1 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNextImage();
+                }}
+              >
+                <ChevronRightIcon className="h-5 w-5 text-white" />
+              </div>
+            </div>
+          )}
+        </div>
+      </Card>
+    </Link>
+  ) : (
+    <div className="w-full h-full">
+      <Card className="h-full flex flex-col">
+        <div className="w-full h-full flex items-center justify-center flex-col">
+          <div className="text-2xl font-bold mt-4">{project.name}</div>
+          <p className="mt-2 text-center text-gray-700 max-w-lg">
+            {project.description}
+          </p>
+          <div className="my-8">
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(project.odinLink, "_blank");
+              }}
+              className="text-md font-light underline text-gray-700 cursor-pointer"
+            >
+              View in the Odin Project
+            </div>
+          </div>
+          <Link
+            href={project.link}
+            className="text-blue-500 font-bold text-xl cursor-pointer"
+          >
+            View Project
+          </Link>
+          <h1 className="text-center my-2 text-lg text-gray-500">Or</h1>
+          <h1 className="text-center text-2xl text-orange-500 mb-2 italic rounded-lg  px-2 ">
+            Interact Below!
+          </h1>
+          {project.showComponent && project.component}
+        </div>
+      </Card>
+    </div>
+  );
+};
 
 export default function Home() {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
+    <Card>
+      <div>
+        <h1 className="text-4xl text-center text-blue-500">Hello World</h1>
+        <p className="text-center text-gray-500">
+          These are some projects that I&apos;ve done as part of the Odin
+          Project
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+        <p className="text-center text-gray-700 italic text-lg">
+          You can click on a card to view the project, view the images, or
+          interact with the components below.
+        </p>
+      </div>
+      <div className="mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {projects &&
+            projects.map((project) => (
+              <ProjectRow key={project.id} project={project} />
+            ))}
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </Card>
   );
 }
