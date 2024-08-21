@@ -92,6 +92,22 @@ const projects = [
     showComponent: false,
     component: null,
   },
+  {
+    id: 7,
+    name: "Admin Page",
+    description:
+      "A modern admin page with a sliding sidebar, navbar, and a main content area",
+    link: "/projects/admin-page",
+    odinLink: "https://www.theodinproject.com/lessons/foundations-recipes",
+    images: [
+      "/images/projects/signUpIndex.png",
+      "/images/projects/signUpIndex2.png",
+      "/images/projects/signUpIndex3.png",
+    ],
+    showImages: true,
+    showComponent: false,
+    component: null,
+  },
 ];
 
 type Project = {
