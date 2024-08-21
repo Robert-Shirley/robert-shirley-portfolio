@@ -14,7 +14,7 @@ const Layout = ({ children }: LayoutProps) => {
     return router.pathname;
   }, [router.pathname]);
 
-  const alternateLayouts = ["/projects/landing-page"];
+  const alternateLayouts = ["/projects/landing-page", "/projects/admin-page"];
 
   return (
     <div>
