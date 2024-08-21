@@ -1,3 +1,4 @@
+import Calculator from "@/components/Calculator/Calculator";
 import EtchASketch from "@/components/EtchASketch/EtchASketch";
 import RockPaperScissors from "@/components/RockPaperScissors/RockPaperScissors";
 import Card from "@/components/shared/Card";
@@ -54,7 +55,7 @@ const projects = [
     id: 4,
     name: "Etch a Sketch",
     description:
-      "A cool etch a sketch app with a customizable grid, color mode, and color picker",
+      "A cool etch a sketch app with a customizable grid size, color mode, and mode toggle (coloring/not coloring)",
     link: "/projects/etch-a-sketch",
     odinLink:
       "https://www.theodinproject.com/lessons/foundations-etch-a-sketch",
@@ -62,6 +63,34 @@ const projects = [
     component: <EtchASketch isComponent={true} />,
     showImages: false,
     images: [],
+  },
+  {
+    id: 5,
+    name: "Calculator",
+    description:
+      "A sleek and responsive calculator app, designed with TailwindCSS, offering essential arithmetic operations and seamless decimal handling",
+    link: "/projects/calculator",
+    odinLink: "https://www.theodinproject.com/lessons/foundations-calculator",
+    showComponent: true,
+    component: <Calculator isComponent={true} />,
+    showImages: false,
+    images: [],
+  },
+  {
+    id: 6,
+    name: "Sign Up Form",
+    description:
+      "A modern sign up and login forms with validation and error messages",
+    link: "/projects/sign-up-form/sign-up",
+    odinLink: "https://www.theodinproject.com/lessons/foundations-recipes",
+    images: [
+      "/images/projects/signUpIndex.png",
+      "/images/projects/signUpIndex2.png",
+      "/images/projects/signUpIndex3.png",
+    ],
+    showImages: true,
+    showComponent: false,
+    component: null,
   },
 ];
 
