@@ -60,15 +60,17 @@ const RockPaperScissors = ({ isComponent }: { isComponent: boolean }) => {
     <Card>
       <div className="flex justify-center flex-col items-center">
         <div>
-          <h1
-            className={classNames(
-              isComponent ? "text-xl" : "text-3xl",
-              "font-bold text-center"
-            )}
-          >
-            Rock Paper Scissors
-          </h1>
-          <div className="flex justify-center gap-6 my-8">
+          {!isComponent && (
+            <h1
+              className={classNames(
+                isComponent ? "text-xl" : "text-3xl",
+                "font-bold text-center mb-8"
+              )}
+            >
+              Rock Paper Scissors
+            </h1>
+          )}
+          <div className="flex justify-center gap-6 ">
             <button
               className={classNames(
                 " bg-blue-500 text-white rounded-lg ",
