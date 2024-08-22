@@ -96,13 +96,13 @@ const projects = [
     id: 7,
     name: "Admin Page",
     description:
-      "A modern admin page with a sliding sidebar, navbar, and a main content area",
+      "A modern and mobile friendly admin page with a navigation sidebar, navbar, customizable project cards with icons, and a site information section",
     link: "/projects/admin-page",
     odinLink: "https://www.theodinproject.com/lessons/foundations-recipes",
     images: [
-      "/images/projects/signUpIndex.png",
-      "/images/projects/signUpIndex2.png",
-      "/images/projects/signUpIndex3.png",
+      "/images/projects/adminIndex.png",
+      "/images/projects/adminIndex2.png",
+      "/images/projects/adminIndex3.png",
     ],
     showImages: true,
     showComponent: false,
