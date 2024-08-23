@@ -166,8 +166,10 @@ export default function Home() {
       <div className="mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
           {projects &&
-            projects.map((project) => (
-              <ProjectRow key={project.id} project={project} />
+            projects.map((project, index) => (
+              <div key={project.id} className={`md:animate-fadeInUp`}>
+                <ProjectRow project={project} />
+              </div>
             ))}
         </div>
       </div>
