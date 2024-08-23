@@ -108,6 +108,22 @@ const projects = [
     showComponent: false,
     component: null,
   },
+  {
+    id: 8,
+    name: "Library",
+    description:
+      "A cool library app that allows you to add, remove, and toggle read status of books. The project uses local storage to persist data. There is a cool drawer component that allows you to add a new book.",
+    link: "/projects/library",
+    odinLink:
+      "https://www.theodinproject.com/lessons/node-path-javascript-library",
+    images: [
+      "/images/projects/libraryIndex.png",
+      "/images/projects/libraryIndex2.png",
+    ],
+    showImages: true,
+    showComponent: false,
+    component: null,
+  },
 ];
 
 type Project = {
@@ -245,7 +261,7 @@ export default function Home() {
         </p>
       </div>
       <div className="mt-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
           {projects &&
             projects.map((project) => (
               <ProjectRow key={project.id} project={project} />
