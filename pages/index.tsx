@@ -112,7 +112,7 @@ const projects = [
     id: 8,
     name: "Library",
     description:
-      "A cool library app that allows you to add, remove, and toggle read status of books. The project uses local storage to persist data. There is a cool drawer component that allows you to add a new book.",
+      "A cool library app that allows you to add, remove, and toggle read status of books. The project uses local storage to persist data. There is a user friendly drawer component that allows you to add a new book.",
     link: "/projects/library",
     odinLink:
       "https://www.theodinproject.com/lessons/node-path-javascript-library",
