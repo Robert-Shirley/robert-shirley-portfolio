@@ -27,7 +27,7 @@ const projects = [
     description:
       "A simple landing page with a header/navbar, hero section, images, quote, call to action, and a footer.",
     link: "/projects/landing-page",
-    odinLink: "https://www.theodinproject.com/lessons/landing-page",
+    odinLink: "https://www.theodinproject.com/lessons/foundations-landing-page",
     images: [
       "/images/projects/landingIndex.png",
       "/images/projects/landingIndex2.png",
@@ -79,7 +79,8 @@ const projects = [
     description:
       "A modern sign up and login forms with validation and error messages",
     link: "/projects/sign-up-form/sign-up",
-    odinLink: "https://www.theodinproject.com/lessons/foundations-recipes",
+    odinLink:
+      "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-sign-up-form",
     images: [
       "/images/projects/signUpIndex.png",
       "/images/projects/signUpIndex2.png",
@@ -95,7 +96,8 @@ const projects = [
     description:
       "A modern and mobile friendly admin page with a navigation sidebar, navbar, customizable project cards with icons, and a site information section",
     link: "/projects/admin-page",
-    odinLink: "https://www.theodinproject.com/lessons/foundations-recipes",
+    odinLink:
+      "https://www.theodinproject.com/lessons/node-path-intermediate-html-and-css-admin-dashboard",
     images: [
       "/images/projects/adminIndex.png",
       "/images/projects/adminIndex2.png",
@@ -128,7 +130,7 @@ const projects = [
       "A fun and interactive tic tac toe game with a two difficulties, easy and impossible. The impossible difficulty uses recursion and a minimax algorithm to ensure the computer never loses.",
     link: "/projects/tic-tac-toe",
     odinLink:
-      "https://www.theodinproject.com/lessons/node-path-javascript-library",
+      "https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe",
     images: [],
     showImages: false,
     showComponent: true,

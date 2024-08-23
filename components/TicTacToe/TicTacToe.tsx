@@ -204,7 +204,7 @@ const TicTacToe: React.FC = () => {
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-1">
             {gameState.board.map((value, index) => (
-              <div className="border p-0.5 rounded-lg">
+              <div className="border p-0.5 rounded-lg" key={index}>
                 <div
                   key={index}
                   onClick={() => handlePlayerMove(index)}

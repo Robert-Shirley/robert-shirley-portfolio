@@ -58,6 +58,7 @@ const Calculator = ({ isComponent }: CalculatorProps) => {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentNumber, prevNumber, operator, keypressEnabled]);
 
   const roundNumber = (num: number) => Math.round(num * 100000) / 100000;
