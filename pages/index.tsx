@@ -1,4 +1,5 @@
 import Card from "@/components/shared/Card";
+
 import projects from "@/data/projects";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -15,6 +16,22 @@ type Project = {
   showImages?: boolean;
   showComponent?: boolean;
   component?: JSX.Element | null;
+  techStack: string[];
+};
+
+const TechStack = ({ techStack }: { techStack: string[] }) => {
+  return (
+    <div className="flex flex-wrap gap-1.5 pt-4 mt-4 border-t">
+      {techStack.map((tech) => (
+        <div
+          key={tech}
+          className="px-2 py-1 bg-gray-200 rounded-md text-gray-600 text-xs"
+        >
+          {tech}
+        </div>
+      ))}
+    </div>
+  );
 };
 
 const ProjectRow = ({ project }: { project: Project }) => {
@@ -37,8 +54,8 @@ const ProjectRow = ({ project }: { project: Project }) => {
 
   return project.showImages ? (
     <Link href={project.link} className="w-full h-full">
-      <Card className="h-full flex flex-col">
-        <div className="w-full h-full flex items-center justify-center flex-col">
+      <Card className="h-full flex flex-col justify-start items-start">
+        <div className="w-full h-full flex items-center justify-start flex-col">
           <div className="text-2xl font-bold mt-4">{project.name}</div>
           <p className="mt-2 text-center text-gray-700 max-w-lg">
             {project.description}
@@ -87,12 +104,15 @@ const ProjectRow = ({ project }: { project: Project }) => {
             </div>
           )}
         </div>
+        {project.techStack && project.techStack.length > 0 && (
+          <TechStack techStack={project.techStack} />
+        )}
       </Card>
     </Link>
   ) : (
     <div className="w-full h-full">
       <Card className="h-full flex flex-col">
-        <div className="w-full h-full flex items-center justify-center flex-col">
+        <div className="w-full h-full flex items-center justify-start flex-col">
           <div className="text-2xl font-bold mt-4">{project.name}</div>
           <p className="mt-2 text-center text-gray-700 max-w-lg">
             {project.description}
@@ -120,6 +140,9 @@ const ProjectRow = ({ project }: { project: Project }) => {
           </h1>
           {project.showComponent && project.component}
         </div>
+        {project.techStack && project.techStack.length > 0 && (
+          <TechStack techStack={project.techStack} />
+        )}
       </Card>
     </div>
   );
@@ -130,6 +153,7 @@ export default function Home() {
     <Card>
       <div>
         <h1 className="text-4xl text-center text-blue-500">Hello World</h1>
+
         <p className="text-center text-gray-500">
           These are some projects that I&apos;ve done as part of the Odin
           Project

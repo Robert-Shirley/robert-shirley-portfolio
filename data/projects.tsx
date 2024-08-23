@@ -20,6 +20,13 @@ const projects = [
     showImages: true,
     showComponent: false,
     component: null,
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "NextJS Router",
+      "TypeScript",
+      "NextJS Image",
+    ],
   },
   {
     id: 2,
@@ -35,6 +42,13 @@ const projects = [
     showImages: true,
     showComponent: false,
     component: null,
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "NextJS Image",
+      "TypeScript",
+      "React Hot Toast",
+    ],
   },
   {
     id: 3,
@@ -47,6 +61,14 @@ const projects = [
     component: <RockPaperScissors isComponent={true} />,
     showImages: false,
     images: [],
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Hot Toast",
+      "React Components",
+      "React Hooks",
+    ],
   },
   {
     id: 4,
@@ -60,6 +82,13 @@ const projects = [
     component: <EtchASketch isComponent={true} />,
     showImages: false,
     images: [],
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Components",
+      "React Hooks",
+    ],
   },
   {
     id: 5,
@@ -72,6 +101,13 @@ const projects = [
     component: <Calculator isComponent={true} />,
     showImages: false,
     images: [],
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Components",
+      "React Hooks",
+    ],
   },
   {
     id: 6,
@@ -89,6 +125,15 @@ const projects = [
     showImages: true,
     showComponent: false,
     component: null,
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Hook Form",
+      "ShadCN Components",
+      "React Hot Toast",
+      "NextJS Router",
+    ],
   },
   {
     id: 7,
@@ -106,6 +151,15 @@ const projects = [
     showImages: true,
     showComponent: false,
     component: null,
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Hot Toast",
+      "React Icons",
+      "NextJS Router",
+      "React Components",
+    ],
   },
   {
     id: 8,
@@ -122,7 +176,19 @@ const projects = [
     showImages: true,
     showComponent: false,
     component: null,
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Icons",
+      "React Hook Form",
+      "React Hot Toast",
+      "NextJS Router",
+      "Local Storage",
+      "Custom React Hooks",
+    ],
   },
+
   {
     id: 9,
     name: "Tic Tac Toe",
@@ -139,6 +205,14 @@ const projects = [
         <TicTacToe />
       </Card>
     ),
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Components",
+      "React Hooks",
+      "React Hot Toast",
+    ],
   },
 ];
 
