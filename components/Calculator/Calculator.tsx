@@ -103,13 +103,18 @@ const Calculator = ({ isComponent }: CalculatorProps) => {
   };
 
   const chooseOperator = (op: string) => {
-    if (currentNumber === "") return;
+    if (currentNumber === "" && prevNumber === "") return; // Prevents action if no number is entered
+    if (currentNumber === "" && prevNumber !== "") {
+      setOperator(op); // Allows changing the operator without resetting the number
+      return;
+    }
+
     if (prevNumber !== "") {
-      compute();
+      compute(); // Compute the previous operation before setting a new operator
     }
     setOperator(op);
     setPrevNumber(currentNumber);
-    setCurrentNumber("0");
+    setCurrentNumber(""); // Keep current number empty until a new number is entered
   };
 
   const addDecimal = () => {
