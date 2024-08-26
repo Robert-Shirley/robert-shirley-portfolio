@@ -132,7 +132,9 @@ const TicTacToe: React.FC = () => {
     if (
       gameState &&
       gameState.board[index] === null &&
-      gameState.currentPlayer === gameState.playerMarker
+      gameState.currentPlayer === gameState.playerMarker &&
+      //and if the game is not over
+      !gameState.outcome
     ) {
       const newBoard = [...gameState.board];
       newBoard[index] = gameState.playerMarker;
