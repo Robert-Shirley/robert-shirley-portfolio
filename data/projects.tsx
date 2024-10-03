@@ -3,6 +3,7 @@ import EtchASketch from "@/components/EtchASketch/EtchASketch";
 import RockPaperScissors from "@/components/RockPaperScissors/RockPaperScissors";
 import Card from "@/components/shared/Card";
 import TicTacToe from "@/components/TicTacToe/TicTacToe";
+import TodoList from "@/components/TodoApp/TodoList";
 import WeatherApp from "@/components/WeatherApp/WeatherApp";
 
 const projects = [
@@ -217,12 +218,39 @@ const projects = [
   },
   {
     id: 10,
+    name: "Todo List",
+    description:
+      "A simple todo list app that allows you to add, remove, and toggle completion of tasks. The app uses local storage to persist data. There is a due date feature that allows you to set a due date for each task.",
+    link: "/projects/todo-app",
+    odinLink:
+      "https://www.theodinproject.com/lessons/node-path-javascript-todo-list",
+    images: [],
+    showImages: false,
+    showComponent: true,
+    component: (
+      <Card>
+        <TodoList />
+      </Card>
+    ),
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Components",
+      "React Hooks",
+      "Local Storage",
+      "Conditional Rendering",
+      "Date Fns",
+    ],
+  },
+  {
+    id: 11,
     name: "Weather App",
     description:
       "A simple weather app that allows you to search for the weather in a location. The app uses the Visual Crossing Weather API to fetch weather data.",
     link: "/projects/weather-app",
     odinLink:
-      "https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe",
+      "https://www.theodinproject.com/lessons/node-path-javascript-weather-app",
     images: [],
     showImages: false,
     showComponent: true,
