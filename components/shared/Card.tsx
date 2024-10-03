@@ -1,3 +1,5 @@
+// components/shared/Card.tsx
+
 import classNames from "@/functions/classNames";
 
 type CardProps = {
@@ -9,7 +11,7 @@ const Card = ({ children, className }: CardProps) => {
   return (
     <div
       className={classNames(
-        "bg-white shadow-lg rounded-lg p-4 xl:p-10 h-full min-h-fit flex flex-col border border-gray-200",
+        "bg-white shadow-lg rounded-lg p-4 xl:p-10 flex flex-col border border-gray-200",
         className
       )}
     >

@@ -147,13 +147,11 @@ const ProjectRow = ({ project }: { project: Project }) => {
     </div>
   );
 };
-
 export default function Home() {
   return (
-    <Card>
+    <div className="bg-white shadow-lg rounded-lg p-4 xl:p-10 flex flex-col border border-gray-200">
       <div>
         <h1 className="text-4xl text-center text-blue-500">Hello World</h1>
-
         <p className="text-center text-gray-500">
           These are some projects that I&apos;ve done as part of the Odin
           Project
@@ -167,12 +165,12 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
           {projects &&
             projects.map((project, index) => (
-              <div key={project.id} className={`md:animate-fadeInUp`}>
+              <div key={project.id} className="md:animate-fadeInUp flex">
                 <ProjectRow project={project} />
               </div>
             ))}
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

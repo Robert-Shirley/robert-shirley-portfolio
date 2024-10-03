@@ -3,6 +3,7 @@ import EtchASketch from "@/components/EtchASketch/EtchASketch";
 import RockPaperScissors from "@/components/RockPaperScissors/RockPaperScissors";
 import Card from "@/components/shared/Card";
 import TicTacToe from "@/components/TicTacToe/TicTacToe";
+import WeatherApp from "@/components/WeatherApp/WeatherApp";
 
 const projects = [
   {
@@ -212,6 +213,33 @@ const projects = [
       "React Components",
       "React Hooks",
       "React Hot Toast",
+    ],
+  },
+  {
+    id: 10,
+    name: "Weather App",
+    description:
+      "A simple weather app that allows you to search for the weather in a location. The app uses the Visual Crossing Weather API to fetch weather data.",
+    link: "/projects/weather-app",
+    odinLink:
+      "https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe",
+    images: [],
+    showImages: false,
+    showComponent: true,
+    component: (
+      <Card>
+        <WeatherApp />
+      </Card>
+    ),
+    techStack: [
+      "NextJS",
+      "TailwindCSS",
+      "TypeScript",
+      "React Components",
+      "React Hooks",
+      "NextJS API Routes",
+      "Visual Crossing Weather API",
+      ".env",
     ],
   },
 ];
