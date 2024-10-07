@@ -56,16 +56,16 @@ const WeatherApp: React.FC = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="w-full max-w-md flex mb-8">
+      <form onSubmit={handleSubmit} className="flex flex-col md:flex-row mb-8">
         <input
           type="text"
           name="location"
           placeholder="Enter city or zip code"
-          className="flex-grow border rounded-l px-4 py-2"
+          className="flex-grow border md:rounded-l px-4 py-2"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-6 py-2 rounded-r"
+          className="bg-blue-500 text-white px-6 py-2 md:rounded-r"
         >
           Search
         </button>
@@ -74,7 +74,7 @@ const WeatherApp: React.FC = () => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {weatherData ? (
-        <div className="bg-white p-6 rounded border border-gray-100 w-full max-w-md ">
+        <div className="bg-white p-6 rounded border border-gray-100 w-full   ">
           <h1 className="text-2xl font-bold mb-4">
             Weather in {weatherData.location}
           </h1>
