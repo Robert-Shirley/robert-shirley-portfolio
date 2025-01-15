@@ -1,26 +1,14 @@
-type DetailsFormProps = {
-  name: string;
-  setName: (name: string) => void;
-  email: string;
-  setEmail: (email: string) => void;
-  phone: string;
-  setPhone: (phone: string) => void;
-  address: string;
-  setAddress: (address: string) => void;
-};
+import { FormInputs } from "@/types/CVTypes";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-const DetailsForm = ({
-  name,
-  setName,
-  email,
-  setEmail,
-  phone,
-  setPhone,
-  address,
-  setAddress,
-}: DetailsFormProps) => {
+interface DetailsFormProps {
+  register: UseFormRegister<FormInputs>;
+  errors: FieldErrors<FormInputs>;
+}
+
+const DetailsForm = ({ register, errors }: DetailsFormProps) => {
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <div>
         <label
           htmlFor="name"
@@ -31,11 +19,14 @@ const DetailsForm = ({
         <input
           type="text"
           id="name"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          {...register("name", { required: "Name is required" })}
           className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
         />
+        {errors.name && (
+          <span className="text-red-500 text-sm mt-1">
+            {errors.name.message}
+          </span>
+        )}
       </div>
 
       <div>
@@ -48,11 +39,20 @@ const DetailsForm = ({
         <input
           type="email"
           id="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          })}
           className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
         />
+        {errors.email && (
+          <span className="text-red-500 text-sm mt-1">
+            {errors.email.message}
+          </span>
+        )}
       </div>
 
       <div>
@@ -65,11 +65,19 @@ const DetailsForm = ({
         <input
           type="tel"
           id="phone"
-          name="phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          {...register("phone", {
+            pattern: {
+              value: /^[0-9+-]+$/,
+              message: "Invalid phone number",
+            },
+          })}
           className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
         />
+        {errors.phone && (
+          <span className="text-red-500 text-sm mt-1">
+            {errors.phone.message}
+          </span>
+        )}
       </div>
 
       <div>
@@ -82,9 +90,7 @@ const DetailsForm = ({
         <input
           type="text"
           id="address"
-          name="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          {...register("address")}
           className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
         />
       </div>
