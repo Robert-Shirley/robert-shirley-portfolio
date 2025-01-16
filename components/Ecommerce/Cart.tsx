@@ -8,6 +8,7 @@ import {
   mensClothing,
   womenClothing,
 } from "@/data/products";
+import Image from "next/image";
 
 type Product = {
   id: number;
@@ -100,10 +101,11 @@ const Cart: React.FC<CartProps> = ({ cart, setCart }) => {
               className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex items-center gap-4"
             >
               <div className="w-20 h-20 relative flex-shrink-0">
-                <img
+                <Image
                   src={item.image}
                   alt={item.title}
-                  className="absolute inset-0 w-full h-full object-contain"
+                  layout="fill"
+                  objectFit="contain"
                 />
               </div>
               <div className="flex-grow">
