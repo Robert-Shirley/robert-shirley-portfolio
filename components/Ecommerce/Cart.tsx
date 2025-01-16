@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import toast from "react-hot-toast";
 
-// types.ts or in your component
+import {
+  electronics,
+  jewelry,
+  mensClothing,
+  womenClothing,
+} from "@/data/products";
+
 type Product = {
   id: number;
   title: string;
@@ -28,35 +34,33 @@ type CartProps = {
 };
 
 const Cart: React.FC<CartProps> = ({ cart, setCart }) => {
-  const [cartProducts, setCartProducts] = useState<CartDisplayItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const allProducts = useMemo(
+    () => [...mensClothing, ...womenClothing, ...jewelry, ...electronics],
+    []
+  );
 
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      try {
-        const productPromises = cart.map(async (item) => {
-          const response = await fetch(
-            `https://fakestoreapi.com/products/${item.id}`
-          );
-          const product = await response.json();
-          return {
-            ...product,
-            quantity: item.quantity,
-          };
-        });
+  const cartProducts = useMemo(() => {
+    try {
+      return cart.map((item) => {
+        const product = allProducts.find((p) => p.id === item.id);
+        if (!product) {
+          throw new Error(`Product with ID ${item.id} not found`);
+        }
+        return {
+          ...product,
+          quantity: item.quantity,
+        };
+      });
+    } catch (error) {
+      console.error("Error processing cart items:", error);
+      toast.error("Failed to load cart items");
+      return [];
+    }
+  }, [cart, allProducts]);
 
-        const products = await Promise.all(productPromises);
-        setCartProducts(products);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-        toast.error("Failed to load cart items");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductDetails();
-  }, [cart]);
+  if (cartProducts.length === 0) {
+    return <div>Your cart is empty</div>;
+  }
 
   const updateQuantity = (itemId: number, newQuantity: number) => {
     if (newQuantity < 1) {
@@ -75,10 +79,6 @@ const Cart: React.FC<CartProps> = ({ cart, setCart }) => {
     setCart((currentCart) => currentCart.filter((item) => item.id !== itemId));
     toast.success("Item removed from cart");
   };
-
-  if (loading) {
-    return <div className="text-gray-600">Loading cart...</div>;
-  }
 
   return (
     <div className="w-full">
