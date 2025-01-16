@@ -16,13 +16,16 @@ const Layout = ({ children }: LayoutProps) => {
 
   const alternateLayouts = ["/projects/landing-page", "/projects/admin-page"];
 
+  const shouldRemovePadding =
+    alternateLayouts.includes(route) || route.startsWith("/projects/ecommerce");
+
   return (
     <div>
       <Navbar />
       <div
         className={classNames(
           "bg-gray-100 min-h-screen h-fit  text-gray-800",
-          !alternateLayouts.includes(route) && "p-6 xl:p-24"
+          !shouldRemovePadding && "p-6 xl:p-24"
         )}
       >
         {children}
