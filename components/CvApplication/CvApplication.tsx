@@ -1,6 +1,8 @@
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { FormInputs, Settings } from "@/types/CVTypes";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useReactToPrint } from "react-to-print";
 import Card from "../shared/Card";
 import CertificationsForm from "./CertificationsForm";
 import CvPreview from "./CVPreview";
@@ -11,6 +13,7 @@ import ExperienceForm from "./ExperienceForm";
 import ProfessionalSummaryForm from "./ProfessionalSummaryForm";
 import ProjectsForm from "./ProjectsForm";
 import SkillsForm from "./SkillsForm";
+import "./style.module.css";
 
 const CvApplication = () => {
   const {
@@ -48,6 +51,12 @@ const CvApplication = () => {
   };
 
   const formValues = watch();
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: "CV",
+  });
 
   return (
     <div className="w-full">
@@ -59,7 +68,7 @@ const CvApplication = () => {
           </div>
 
           <div className="flex-1">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex gap-6">
+            <form className="flex gap-6">
               {/* Form Fields - Middle */}
               <div className="w-1/3">
                 <div className="space-y-6 max-h-[calc(100vh-8rem)] overflow-y-auto pr-4">
@@ -76,10 +85,19 @@ const CvApplication = () => {
 
                   <div className="sticky bottom-0 bg-white py-4">
                     <button
-                      type="submit"
-                      className="w-full bg-emerald-500 text-white px-4 py-2 rounded-md hover:bg-emerald-600 transition-colors"
+                      type="button"
+                      className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-3 w-fit"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        try {
+                          handlePrint();
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
                     >
-                      Save CV
+                      <span>Print CV</span>
                     </button>
                   </div>
                 </div>
@@ -88,7 +106,12 @@ const CvApplication = () => {
               {/* Preview - Right Side */}
               <div className="w-2/3">
                 <div className="sticky top-4">
-                  <CvPreview formData={formValues} settings={settings} />
+                  <div
+                    ref={printRef}
+                    className=" print-container min-h-screen h-fit"
+                  >
+                    <CvPreview formData={formValues} settings={settings} />
+                  </div>
                 </div>
               </div>
             </form>
