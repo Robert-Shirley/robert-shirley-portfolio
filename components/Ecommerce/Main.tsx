@@ -19,16 +19,14 @@ const MainImage: React.FC<MainImageProps> = ({
     <Link href={route} className="block">
       <div>
         <h2 className="text-lg text-black font-semibold">{title}</h2>
-        <div className="border-2 border-sky-500 h-40 w-40 rounded-lg overflow-hidden">
-          <div className="relative h-40 w-40">
-            <Image
-              src={imageUrl}
-              alt={title}
-              layout="fill"
-              objectFit="cover"
-              quality={90}
-            />
-          </div>
+        <div className="border-2 border-sky-500 h-fit w-fit rounded-lg overflow-hidden">
+          <Image
+            src={imageUrl}
+            alt={title}
+            width={160}
+            height={160}
+            quality={90}
+          />
         </div>
         <p className="max-w-36 text-center text-xs text-gray-500 mt-2">
           {description}

@@ -104,8 +104,9 @@ const Cart: React.FC<CartProps> = ({ cart, setCart }) => {
                 <Image
                   src={item.image}
                   alt={item.title}
-                  layout="fill"
                   objectFit="contain"
+                  width={80}
+                  height={80}
                 />
               </div>
               <div className="flex-grow">

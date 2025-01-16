@@ -104,8 +104,8 @@ export default function CategoryPage() {
                     <Image
                       src={product.image}
                       alt={product.title}
-                      layout="fill"
-                      objectFit="contain"
+                      width={256}
+                      height={256}
                       className="group-hover:scale-105 transition-transform duration-200"
                     />
                   </div>

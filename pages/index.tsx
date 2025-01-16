@@ -120,7 +120,6 @@ const ProjectRow = ({ project }: { project: Project }) => {
                         <Image
                           src={project.images[modalImage]}
                           alt={`${project.name} enlarged`}
-                          layout="intrinsic"
                           width={800}
                           height={600}
                           className="object-contain rounded-lg"
