@@ -61,7 +61,7 @@ const CustomerReviews: React.FC = () => {
     {
       name: "Emily Parker",
       image: "/api/placeholder/48/48",
-      rating: Math.floor(Math.random() * 5) + 3,
+      rating: Math.floor(Math.random() * 5) + 4,
       date: "January 8, 2025",
       review:
         "Found exactly what I was looking for at a great price. The free shipping was super fast too. Will definitely shop here again!",
@@ -69,7 +69,7 @@ const CustomerReviews: React.FC = () => {
     {
       name: "Michael Chen",
       image: "/api/placeholder/48/48",
-      rating: Math.floor(Math.random() * 5) + 4,
+      rating: Math.floor(Math.random() * 5) + 1,
       date: "January 12, 2025",
       review:
         "The product exceeded my expectations. Great shopping experience from start to finish. Highly recommend this store!",
