@@ -2,6 +2,7 @@
 import Layout from "@/components/Ecommerce/Layout";
 import { useCart } from "@/context/CartContext";
 import { Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -134,10 +135,13 @@ export default function ProductPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Product image */}
               <div className="aspect-square bg-white rounded-lg p-8">
-                <img
+                <Image
                   src={product.image}
                   alt={product.title}
+                  width={500}
+                  height={500}
                   className="w-full h-full object-contain"
+                  priority={true}
                 />
               </div>
 
@@ -194,10 +198,13 @@ export default function ProductPage() {
                   className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col group"
                 >
                   <div className="relative h-48 mb-4">
-                    <img
+                    <Image
                       src={similar.image}
                       alt={similar.title}
+                      width={300}
+                      height={300}
                       className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
+                      priority={true}
                     />
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600">
