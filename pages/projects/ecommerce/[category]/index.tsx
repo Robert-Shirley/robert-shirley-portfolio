@@ -1,10 +1,14 @@
 // pages/projects/ecommerce/[category].tsx
 import Layout from "@/components/Ecommerce/Layout";
-import useLocalStorage from "@/hooks/useLocalStorage";
+import {
+  electronics,
+  jewelry,
+  mensClothing,
+  womenClothing,
+} from "@/data/products";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useMemo } from "react";
 
 type Product = {
   id: number;
@@ -22,72 +26,22 @@ type CartItem = Product & {
 export default function CategoryPage() {
   const router = useRouter();
   const { category } = router.query;
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (category) {
-        try {
-          setLoading(true);
-          let data = [];
+  const products = useMemo(() => {
+    if (!category) return [];
 
-          if (category === "clothing") {
-            // Fetch both men's and women's clothing
-            const [mensRes, womensRes] = await Promise.all([
-              fetch(
-                "https://fakestoreapi.com/products/category/men's clothing"
-              ),
-              fetch(
-                "https://fakestoreapi.com/products/category/women's clothing"
-              ),
-            ]);
-            const [mensData, womensData] = await Promise.all([
-              mensRes.json(),
-              womensRes.json(),
-            ]);
-            data = [...mensData, ...womensData].slice(0, 8); // Limit to 8 items
-          } else {
-            // For jewelry and electronics
-            const apiCategory =
-              category === "jewelry" ? "jewelery" : "electronics";
-            const response = await fetch(
-              `https://fakestoreapi.com/products/category/${apiCategory}?limit=8`
-            );
-            data = await response.json();
-          }
+    let data = [] as Product[];
+    if (category === "clothing") {
+      // Combine men's and women's clothing
+      data = [...mensClothing, ...womenClothing].slice(0, 8);
+    } else if (category === "jewelry") {
+      data = jewelry.slice(0, 8);
+    } else if (category === "electronics") {
+      data = electronics.slice(0, 8);
+    }
 
-          setProducts(data);
-        } catch (error) {
-          console.error("Error fetching products:", error);
-          toast.error("Failed to load products");
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProducts();
+    return data as Product[];
   }, [category]);
-
-  const addToCart = (product: Product) => {
-    setCart((currentCart) => {
-      const existingItem = currentCart.find((item) => item.id === product.id);
-
-      if (existingItem) {
-        return currentCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-
-      return [...currentCart, { ...product, quantity: 1 }];
-    });
-
-    toast.success("Added to cart!");
-  };
 
   if (
     !category ||
@@ -100,19 +54,6 @@ export default function CategoryPage() {
             <h1 className="text-2xl font-semibold text-gray-900">
               Category not found
             </h1>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
-  if (loading) {
-    return (
-      <Layout>
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading products...</p>
           </div>
         </div>
       </Layout>
