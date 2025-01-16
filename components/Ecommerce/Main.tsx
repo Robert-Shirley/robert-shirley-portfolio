@@ -36,20 +36,20 @@ const Main: React.FC = () => {
   const routes = [
     {
       title: "Clothing Store",
-      imageUrl: "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg", // Men's casual slim fit t-shirt
+      imageUrl: "/images/ecommerce/products/71YXzeOuslL._AC_UY879_.jpg", // Men's casual slim fit t-shirt
       description: "Browse our collection of modern clothing and accessories",
       route: "/projects/ecommerce/clothing",
     },
     {
       title: "Jewelry Collection",
       imageUrl:
-        "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg", // Gold plated necklace
+        "/images/ecommerce/products/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg", // Gold plated necklace
       description: "Explore our curated selection of fine jewelry",
       route: "/projects/ecommerce/jewelry",
     },
     {
       title: "Electronics Hub",
-      imageUrl: "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg", // Samsung gaming monitor
+      imageUrl: "/images/ecommerce/products/71kWymZ+c+L._AC_SX679_.jpg", // Samsung gaming monitor
       description: "Discover the latest in consumer electronics",
       route: "/projects/ecommerce/electronics",
     },
