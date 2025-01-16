@@ -243,8 +243,9 @@ export default function Home() {
           Project
         </p>
         <p className="text-center text-gray-700 italic text-lg">
-          You can click on a card to view the project, view the images, or
-          interact with the components below.
+          You can click on "Try It Out" on a card to view the project, view the
+          images (click to enlarge), or interact with some of the projects
+          below.
         </p>
       </div>
       <div className="mt-6">
