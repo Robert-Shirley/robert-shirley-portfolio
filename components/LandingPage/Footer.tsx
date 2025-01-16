@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex h-16 justify-between w-full">
           <div className="flex w-full text-center items-center justify-center">
-            Copyright @ Rob Shirley 2024
+            Copyright @ Rob Shirley 2025
           </div>
         </div>
       </div>
