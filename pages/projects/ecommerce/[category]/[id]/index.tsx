@@ -4,8 +4,15 @@ import { useCart } from "@/context/CartContext";
 import { Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import toast from "react-hot-toast";
+
+import {
+  electronics,
+  jewelry,
+  mensClothing,
+  womenClothing,
+} from "@/data/products";
 
 type Product = {
   id: number;
@@ -27,50 +34,37 @@ type CartItem = Product & {
 export default function ProductPage() {
   const router = useRouter();
   const { category, id } = router.query;
-  const [product, setProduct] = useState<Product | null>(null);
-  const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
   const { setCart } = useCart();
 
-  useEffect(() => {
-    const fetchProductAndSimilar = async () => {
-      if (id) {
-        try {
-          setLoading(true);
-          const productRes = await fetch(
-            `https://fakestoreapi.com/products/${id}`
-          );
-          const productData = await productRes.json();
-          setProduct(productData);
+  const product = useMemo(() => {
+    if (!id || !category) return null;
 
-          // Fetch similar products from same category
-          const apiCategory =
-            category === "clothing"
-              ? "men's clothing"
-              : category === "jewelry"
-              ? "jewelery"
-              : "electronics";
+    // Determine the correct category data
+    const categoryData =
+      category === "clothing"
+        ? [...mensClothing, ...womenClothing]
+        : category === "jewelry"
+        ? jewelry
+        : electronics;
 
-          const similarRes = await fetch(
-            `https://fakestoreapi.com/products/category/${apiCategory}`
-          );
-          const similarData = await similarRes.json();
-          setSimilarProducts(
-            similarData
-              .filter((p: Product) => p.id !== productData.id)
-              .slice(0, 4)
-          );
-        } catch (error) {
-          console.error("Error fetching product:", error);
-          toast.error("Failed to load product details");
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchProductAndSimilar();
+    // Find the product by ID
+    return categoryData.find((p) => p.id === parseInt(id as string)) || null;
   }, [id, category]);
+
+  const similarProducts = useMemo(() => {
+    if (!category || !product) return [];
+
+    // Determine the correct category data
+    const categoryData =
+      category === "clothing"
+        ? [...mensClothing, ...womenClothing]
+        : category === "jewelry"
+        ? jewelry
+        : electronics;
+
+    // Filter out the current product and limit to 4 items
+    return categoryData.filter((p) => p.id !== product.id).slice(0, 4);
+  }, [category, product]);
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {
@@ -89,19 +83,6 @@ export default function ProductPage() {
 
     toast.success("Added to cart!");
   };
-
-  if (loading) {
-    return (
-      <Layout>
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading product details...</p>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
 
   if (!product) {
     return (
