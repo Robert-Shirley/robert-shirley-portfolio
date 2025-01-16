@@ -6,6 +6,7 @@ import {
   mensClothing,
   womenClothing,
 } from "@/data/products";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -100,10 +101,12 @@ export default function CategoryPage() {
                   className="group"
                 >
                   <div className="relative h-64 mb-4 z-0">
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.title}
-                      className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
+                      layout="fill"
+                      objectFit="contain"
+                      className="group-hover:scale-105 transition-transform duration-200"
                     />
                   </div>
                   <h2 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600">
