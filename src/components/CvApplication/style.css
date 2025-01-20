@@ -1,0 +1,7 @@
+@media print {
+  .print-container {
+    box-shadow: none !important;
+    background: white !important;
+    border: none !important;
+  }
+}
