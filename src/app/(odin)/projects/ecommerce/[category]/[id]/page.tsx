@@ -3,78 +3,49 @@
 import Layout from "@/components/Ecommerce/Layout";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { useFetchData } from "@/hooks/useFetchData";
+import { Product } from "@/types/Ecommerce";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-
-import {
-  electronics,
-  jewelry,
-  mensClothing,
-  womenClothing,
-} from "@/data/products";
 import { useParams } from "next/navigation";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-};
-
-type CartItem = Product & {
-  quantity: number;
-};
+import { useMemo, useState } from "react";
+import { getInventoryMessage } from "../page";
 
 export default function ProductPage() {
   const params = useParams();
-  const category = params?.category;
-  const id = params?.id;
-  const { setCart } = useCart();
+  const category = params?.category as string;
+  const id = params?.id as string;
+  const { setCart, setIsOpen } = useCart();
   const { toast } = useToast();
+  const [quantity, setQuantity] = useState(1);
 
-  const [isLoading, setIsLoading] = useState(true);
+  // Fetch main product
+  const { data: productQuery, isLoading } = useFetchData(
+    id ? `/api/ecommerce/product?id=${id}` : "",
+    [id]
+  );
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  // Fetch similar products in the same category
+  const { data: similarProductsQuery } = useFetchData(
+    category ? `/api/ecommerce/product?category=${category}` : "",
+    [category]
+  );
 
   const product = useMemo(() => {
-    if (!id || !category) return null;
-
-    // Determine the correct category data
-    const categoryData =
-      category === "clothing"
-        ? [...mensClothing, ...womenClothing]
-        : category === "jewelry"
-        ? jewelry
-        : electronics;
-
-    // Find the product by ID
-    return categoryData.find((p) => p.id === parseInt(id as string)) || null;
-  }, [id, category]);
+    if (!productQuery) return null;
+    return productQuery as Product;
+  }, [productQuery]);
 
   const similarProducts = useMemo(() => {
-    if (!category || !product) return [];
+    if (!similarProductsQuery) return [];
+    const similar = similarProductsQuery as Product[];
+    if (similar.length < 4) return similar;
 
-    // Determine the correct category data
-    const categoryData =
-      category === "clothing"
-        ? [...mensClothing, ...womenClothing]
-        : category === "jewelry"
-        ? jewelry
-        : electronics;
-
-    // Filter out the current product and limit to 4 items
-    return categoryData.filter((p) => p.id !== product.id).slice(0, 4);
-  }, [category, product]);
+    // Shuffle and slice the array to get 4 random products
+    const shuffled = [...similar].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 4) as Product[];
+  }, [similarProductsQuery]);
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {
@@ -83,18 +54,20 @@ export default function ProductPage() {
       if (existingItem) {
         return currentCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
 
-      return [...currentCart, { id: product.id, quantity: 1 }];
+      return [...currentCart, { ...product, quantity }];
     });
 
     toast({
       title: "Added to cart",
-      description: `${product.title} added to cart successfully`,
+      description: `${quantity} ${product.name}(s) added to cart successfully`,
     });
+
+    setQuantity(1);
   };
 
   if (isLoading) {
@@ -147,7 +120,7 @@ export default function ProductPage() {
               </li>
               <li>→</li>
               <li className="text-gray-900 font-medium line-clamp-1">
-                {product.title}
+                {product?.name}
               </li>
             </ol>
           </nav>
@@ -158,8 +131,8 @@ export default function ProductPage() {
               {/* Product image */}
               <div className="aspect-square bg-white rounded-lg p-8">
                 <Image
-                  src={product.image}
-                  alt={product.title}
+                  src={product.imageUrl}
+                  alt={product.name}
                   width={500}
                   height={500}
                   className="w-full h-full object-contain"
@@ -170,7 +143,7 @@ export default function ProductPage() {
               {/* Product info */}
               <div className="flex flex-col">
                 <h1 className="text-3xl font-semibold text-gray-900 mb-4">
-                  {product.title}
+                  {product.name}
                 </h1>
 
                 <div className="flex items-center mb-6">
@@ -179,7 +152,7 @@ export default function ProductPage() {
                       <Star
                         key={i}
                         className={`w-5 h-5 ${
-                          i < Math.round(product.rating.rate)
+                          i < Math.round(+(product?.ratings?.rate || 0) || 0)
                             ? "text-yellow-400 fill-yellow-400"
                             : "text-gray-300"
                         }`}
@@ -187,23 +160,58 @@ export default function ProductPage() {
                     ))}
                   </div>
                   <span className="ml-2 text-sm text-gray-600">
-                    ({product.rating.count} reviews)
+                    {+(product?.ratings?.count || 0)}
                   </span>
                 </div>
 
                 <p className="text-2xl font-bold text-gray-900 mb-6">
-                  ${product.price.toFixed(2)}
+                  ${(+product.price).toFixed(2)}
                 </p>
 
                 <p className="text-gray-600 mb-8">{product.description}</p>
 
+                {getInventoryMessage(+product.inventoryCount)}
+
+                {+product.inventoryCount > 0 && (
+                  <div className="flex items-center space-x-4 mb-6">
+                    <label htmlFor="quantity" className="text-sm font-medium">
+                      Quantity:
+                    </label>
+
+                    <input
+                      id="quantity"
+                      type="number"
+                      value={quantity}
+                      onChange={(e) =>
+                        setQuantity(
+                          Math.max(
+                            1,
+                            Math.min(+product.inventoryCount, +e.target.value)
+                          )
+                        )
+                      }
+                      className="w-16 border rounded-lg text-center"
+                      min="1"
+                      max={product.inventoryCount}
+                      disabled={+product.inventoryCount === 0}
+                    />
+                  </div>
+                )}
                 <button
                   onClick={() => {
                     addToCart(product);
+                    setIsOpen(true);
                   }}
-                  className="bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition-colors w-full sm:w-auto"
+                  className={`bg-emerald-600 text-white px-8 py-3 rounded-lg hover:bg-emerald-700 transition-colors w-full sm:w-auto ${
+                    +product.inventoryCount === 0
+                      ? "bg-gray-400 cursor-not-allowed hover:bg-gray-400"
+                      : ""
+                  }`}
+                  disabled={+product.inventoryCount === 0}
                 >
-                  Add to Cart
+                  {+product.inventoryCount === 0
+                    ? "Out of Stock"
+                    : "Add to Cart"}
                 </button>
               </div>
             </div>
@@ -223,8 +231,8 @@ export default function ProductPage() {
                 >
                   <div className="relative h-48 mb-4">
                     <Image
-                      src={similar.image}
-                      alt={similar.title}
+                      src={similar.imageUrl}
+                      alt={similar.name}
                       width={300}
                       height={300}
                       className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
@@ -232,10 +240,10 @@ export default function ProductPage() {
                     />
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600">
-                    {similar.title}
+                    {similar.name}
                   </h3>
                   <span className="text-lg font-semibold text-gray-900 mt-auto">
-                    ${similar.price.toFixed(2)}
+                    ${(+similar.price).toFixed(2)}
                   </span>
                 </Link>
               ))}
@@ -266,14 +274,14 @@ export default function ProductPage() {
                 <div className="flex items-center space-x-4">
                   <div className="text-center">
                     <div className="text-5xl font-bold text-gray-900">
-                      {product.rating.rate}
+                      {product?.ratings?.rate}
                     </div>
                     <div className="flex items-center justify-center my-2">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
                           className={`w-5 h-5 ${
-                            i < Math.round(product.rating.rate)
+                            i < Math.round(Number(product?.ratings?.rate || 0))
                               ? "text-yellow-400 fill-yellow-400"
                               : "text-gray-300"
                           }`}
@@ -281,7 +289,7 @@ export default function ProductPage() {
                       ))}
                     </div>
                     <div className="text-sm text-gray-500">
-                      {product.rating.count} reviews
+                      {product.ratings?.count} reviews
                     </div>
                   </div>
                 </div>
@@ -322,8 +330,8 @@ export default function ProductPage() {
             {/* Individual Reviews */}
             <div className="space-y-6">
               {[...Array(3)].map((_, i) => {
-                const randomRating = Math.floor(Math.random() * 3) + 3; // Random rating between 3-5
-                const randomDays = Math.floor(Math.random() * 30) + 1; // Random days between 1-30
+                const randomRating = Math.floor(Math.random() * 3) + 3;
+                const randomDays = Math.floor(Math.random() * 30) + 1;
 
                 return (
                   <div
