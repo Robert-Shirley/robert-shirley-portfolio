@@ -1,55 +1,44 @@
 "use client";
 
 import Layout from "@/components/Ecommerce/Layout";
-import {
-  electronics,
-  jewelry,
-  mensClothing,
-  womenClothing,
-} from "@/data/products";
+import { useFetchData } from "@/hooks/useFetchData";
+import { Product } from "@/types/Ecommerce";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-};
-
-type CartItem = Product & {
-  quantity: number;
-};
+export function getInventoryMessage(inventoryCount: number) {
+  if (inventoryCount === 0) {
+    return (
+      <span className="text-sm text-red-600 font-medium">Out of stock</span>
+    );
+  }
+  if (inventoryCount <= 20) {
+    return (
+      <span className="text-sm text-yellow-600 font-medium">
+        Order now! Only {inventoryCount} left!
+      </span>
+    );
+  }
+  return <span className="text-sm text-gray-500 font-medium">In stock</span>;
+}
 
 export default function CategoryPage() {
   const params = useParams();
-  const category = params?.category;
-  const [isLoading, setIsLoading] = useState(true);
+  const category = params?.category as string;
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  // Fetch data only when category exists
+  const { data, isLoading, error } = useFetchData(
+    category ? `/api/ecommerce/product?category=${category}` : "", // Add null check
+    [category] // Simplify cache key
+  );
 
   const products = useMemo(() => {
-    if (!category) return [];
-
-    let data = [] as Product[];
-    if (category === "clothing") {
-      data = [...mensClothing, ...womenClothing].slice(0, 8);
-    } else if (category === "jewelry") {
-      data = jewelry.slice(0, 8);
-    } else if (category === "electronics") {
-      data = electronics.slice(0, 8);
-    }
-
+    if (!data) return [];
     return data as Product[];
-  }, [category]);
+  }, [data]);
 
-  // Add early return for loading state
   if (isLoading) {
     return (
       <Layout>
@@ -60,10 +49,7 @@ export default function CategoryPage() {
     );
   }
 
-  if (
-    !category ||
-    !["clothing", "jewelry", "electronics"].includes(category as string)
-  ) {
+  if (error || !category) {
     return (
       <Layout>
         <div className="min-h-screen bg-gray-50 px-4 py-12">
@@ -106,45 +92,49 @@ export default function CategoryPage() {
             {category} Collection
           </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col"
-              >
-                <Link
-                  href={`/projects/ecommerce/${category}/${product.id}`}
-                  className="group"
+          {products.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col"
                 >
-                  <div className="relative h-64 mb-4 z-0">
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      width={256}
-                      height={256}
-                      className="group-hover:scale-105 transition-transform duration-200"
-                    />
-                  </div>
-                  <h2 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600">
-                    {product.title}
-                  </h2>
-                  <p className="text-gray-600 text-sm mb-4 flex-grow line-clamp-3">
-                    {product.description}
-                  </p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-lg font-semibold text-gray-900">
-                      ${product.price.toFixed(2)}
-                    </span>
-                    <span className="text-emerald-600 font-medium">
-                      View Details →
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
+                  <Link
+                    href={`/projects/ecommerce/${category}/${product.id}`}
+                    className="group flex flex-col h-full"
+                  >
+                    <div className="relative h-48 w-full mb-4">
+                      <Image
+                        src={product.imageUrl}
+                        alt={product.name}
+                        fill
+                        className="object-contain group-hover:scale-105 transition-transform duration-200"
+                      />
+                    </div>
+                    <div className="mt-auto mb-0">
+                      <h2 className="text-lg font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600">
+                        {product.name}
+                      </h2>
+                      <p className="text-gray-600 text-sm mb-4 flex-grow line-clamp-3">
+                        {product.description}
+                      </p>
+                      {getInventoryMessage(+product.inventoryCount)}
 
-          {products.length === 0 && (
+                      <div className="flex items-center justify-between mt-auto">
+                        <span className="text-lg font-semibold text-gray-900">
+                          ${(+product.price).toFixed(2)}
+                        </span>
+
+                        <span className="text-emerald-600 font-medium">
+                          View Details →
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
             <div className="text-center text-gray-600">
               No products found in this category.
             </div>
