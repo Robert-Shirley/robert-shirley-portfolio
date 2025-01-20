@@ -1,0 +1,1 @@
+ALTER TABLE "ProductCategory" ADD COLUMN "include_in_nav" boolean DEFAULT false;
