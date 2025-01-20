@@ -1,17 +1,10 @@
-// app/projects/recipes/[id]/page.tsx
 import Card from "@/components/shared/Card";
 import { recipes as recipesData } from "@/data/recipes";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-// Generate static params at build time
-export async function generateStaticParams() {
-  return recipesData.map((recipe) => ({
-    id: recipe.id.toString(),
-  }));
-}
 
 // Type for recipe
 type Recipe = {
@@ -23,17 +16,42 @@ type Recipe = {
   directions: string[];
 };
 
-// Page component
-export default function RecipePage({ params }: { params: { id: string } }) {
+// Generate static params at build time
+export async function generateStaticParams() {
+  return recipesData.map((recipe) => ({
+    id: recipe.id.toString(),
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
   const recipe = recipesData.find(
-    (recipe) => recipe.id.toString() === params.id
+    (recipe) => recipe.id.toString() === resolvedParams.id
   );
 
-  // Handle recipe not found
+  return {
+    title: recipe ? `${recipe.name} Recipe` : "Recipe Not Found",
+    description: recipe?.description || "Recipe details",
+  };
+}
+
+export default async function RecipePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const recipe = recipesData.find(
+    (recipe) => recipe.id.toString() === resolvedParams.id
+  );
+
   if (!recipe) {
     notFound();
   }
-
   return (
     <Card>
       <div className="flex w-full justify-start">

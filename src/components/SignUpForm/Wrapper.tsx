@@ -35,7 +35,7 @@ export const Wrapper: FC<{ children: ReactElement }> = ({ children }) => {
                 <NavigationMenuLink
                   className={classNames(
                     "px-4 my-2  rounded-lg py-2 text-center",
-                    pathName.includes("/projects/sign-up-form/sign-up")
+                    pathName?.includes("/projects/sign-up-form/sign-up")
                       ? "text-gray-600 mx-2 bg-white min-w-fit xl:w-48 hover:bg-gray-50"
                       : "text-gray-600 mx-2 bg-gray-200 min-w-fit xl:w-48"
                   )}
