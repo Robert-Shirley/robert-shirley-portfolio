@@ -1,9 +1,11 @@
 "use client";
 
 import Layout from "@/components/Ecommerce/Layout";
+import { useToast } from "@/hooks/use-toast";
 import { Building2, Globe, Leaf, Users } from "lucide-react";
 
 const About = () => {
+  const { toast } = useToast();
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50 px-4 py-12">
@@ -124,7 +126,10 @@ const About = () => {
             <p className="mb-6">Have questions? Our team is here to help.</p>
             <button
               onClick={() =>
-                (window.location.href = "mailto:contact@superbproducts.com")
+                toast({
+                  title: "Contact Us",
+                  description: "This would open a contact form in a real app!",
+                })
               }
               className="bg-white text-emerald-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
             >
