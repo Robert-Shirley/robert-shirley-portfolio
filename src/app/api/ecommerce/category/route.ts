@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     let categories;
 
     if (categorySlug) {
-      // Query for specific category
       categories = await db
         .select({
           id: productCategory.id,
