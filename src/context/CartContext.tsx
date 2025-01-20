@@ -5,7 +5,7 @@ import useLocalStorage from "@/hooks/useLocalStorage";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 type CartItem = {
-  id: number;
+  id: number | string;
   quantity: number;
 };
 
@@ -13,12 +13,15 @@ type CartContextType = {
   cart: CartItem[];
   setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
   totalItems: number;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
 
   useEffect(() => {
@@ -31,7 +34,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [isReady, cart]);
 
   return (
-    <CartContext.Provider value={{ cart, setCart, totalItems }}>
+    <CartContext.Provider
+      value={{ cart, setCart, totalItems, isOpen, setIsOpen }}
+    >
       {children}
     </CartContext.Provider>
   );
