@@ -1,37 +1,43 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
+import { useFetchData } from "@/hooks/useFetchData";
 import { Disclosure } from "@headlessui/react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import MyDrawer from "../shared/Drawer";
 import Cart from "./Cart";
 
 export default function Navbar() {
-  const [openCart, setOpenCart] = useState(false);
+  const { totalItems, isOpen, setIsOpen } = useCart();
 
-  const { cart, setCart, totalItems } = useCart();
+  const { data, isLoading, error } = useFetchData(
+    "/api/ecommerce/category",
+    ["categories"],
+    "GET"
+  );
 
-  const navLinks = [
-    {
-      name: "Clothing",
-      href: "/projects/ecommerce/clothing",
-    },
-    {
-      name: "Jewelry",
-      href: "/projects/ecommerce/jewelry",
-    },
-    {
-      name: "Electronics",
-      href: "/projects/ecommerce/electronics",
-    },
-    {
-      name: "About",
-      href: "/projects/ecommerce/about",
-    },
-  ];
+  const navLinks = useMemo(() => {
+    const links = data as {
+      id: string;
+      slug: string;
+      name: string;
+      image: string;
+      description: string;
+      imageUrl: string;
+      includeInNav: boolean;
+    }[];
+    if (!links) return [];
+
+    return links
+      .filter((link) => link.includeInNav)
+      .map((link) => ({
+        name: link.name,
+        href: `/projects/ecommerce/${link.slug}`,
+      }));
+  }, [data]);
 
   return (
     <Disclosure
@@ -42,12 +48,12 @@ export default function Navbar() {
         <>
           <div className="mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <MyDrawer
-              open={openCart}
-              setOpen={() => setOpenCart(false)}
+              open={isOpen}
+              setOpen={() => setIsOpen(false)}
               title="Your Cart"
             >
               <div className="h-full">
-                <Cart cart={cart} setCart={setCart} />
+                <Cart />
               </div>
             </MyDrawer>
 
@@ -67,18 +73,27 @@ export default function Navbar() {
                 </div>
 
                 {/* Desktop Navigation */}
-                <div className="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-8">
+                <div className="hidden md:ml-6 md:flex md:items-center md:space-x-8">
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="cursor-pointer text-lg hover:underline items-center px-1 pt-1 font-medium"
+                      className="cursor-pointer text-lg hover:underline items-center px-1 pt-1 font-medium capitalize"
                     >
                       {link.name}
                     </Link>
                   ))}
+                  <div className="border-l h-8"></div>
+                  <Link
+                    href={"/projects/ecommerce/about"}
+                    className="cursor-pointer text-lg hover:underline items-center px-1 pt-1 font-medium capitalize"
+                  >
+                    About Us
+                  </Link>
+                  <div className="border-l h-8"></div>
+
                   <div
-                    onClick={() => setOpenCart(!openCart)}
+                    onClick={() => setIsOpen(!isOpen)}
                     className="bg-white text-emerald-600 rounded-lg px-6 py-2 text-xl hover:bg-gray-100 hover:text-emerald-700 relative cursor-pointer"
                   >
                     {totalItems > 0 && (
@@ -87,7 +102,7 @@ export default function Navbar() {
                       </span>
                     )}
                     Cart
-                    <FaShoppingCart className="inline-block ml-2" />
+                    <FaShoppingCart className="ml-2 hidden xl:inline-block" />
                   </div>
                 </div>
 
@@ -107,7 +122,7 @@ export default function Navbar() {
 
           {/* Mobile menu panel */}
           {/* Mobile menu panel */}
-          <Disclosure.Panel className="sm:hidden">
+          <Disclosure.Panel className="md:hidden">
             {({ close }) => (
               <div className="space-y-1 px-2 pb-3 pt-2">
                 {navLinks.map((link) => (
@@ -115,7 +130,7 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     onClick={() => {
-                      setOpenCart(false);
+                      setIsOpen(false);
                       close();
                     }}
                   >
@@ -130,7 +145,7 @@ export default function Navbar() {
                 <Disclosure.Button
                   as="div"
                   onClick={() => {
-                    setOpenCart(!openCart);
+                    setIsOpen(!isOpen);
                     close();
                   }}
                   className="cursor-pointer flex items-center px-4 py-2 text-base font-medium text-white hover:bg-emerald-700 rounded-md transition duration-200"
