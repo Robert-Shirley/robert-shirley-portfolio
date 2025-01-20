@@ -8,6 +8,48 @@
       "when": 1737135136753,
       "tag": "0000_reflective_moon_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737395977387,
+      "tag": "0001_heavy_hitman",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737397171303,
+      "tag": "0002_chief_toad_men",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1737398023938,
+      "tag": "0003_melodic_proudstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1737398200555,
+      "tag": "0004_black_prima",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1737398891414,
+      "tag": "0005_nice_nocturne",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1737411568420,
+      "tag": "0006_careless_smasher",
+      "breakpoints": true
     }
   ]
 }
