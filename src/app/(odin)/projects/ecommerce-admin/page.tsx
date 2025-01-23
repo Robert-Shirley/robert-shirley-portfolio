@@ -1,129 +1,132 @@
-"use client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { db } from "@/lib/db/db";
+import { product, productCategory } from "@/schema";
+import { and, eq, lte, sql } from "drizzle-orm";
+import { Folders, Package2 } from "lucide-react";
 
-import { useFetchData } from "@/hooks/useFetchData";
-import Image from "next/image";
-import { useMemo } from "react";
+import Link from "next/link";
 
-const AdminDashboard: React.FC = () => {
-  const { data, isLoading, error } = useFetchData(
-    "/api/ecommerce/category",
-    ["categories"],
-    "GET"
-  );
+async function getStats() {
+  return db.transaction(async (tx) => {
+    const categoriesCount = await tx
+      .select({ count: sql<number>`count(*)` })
+      .from(productCategory)
+      .where(eq(productCategory.deleted, false));
 
-  const categories = useMemo(() => {
-    const categoryData = data as any[];
-    return (categoryData || []).map((category: any) => ({
-      id: category.id,
-      name: category.name,
-      imageUrl: category.imageUrl,
-      description: category.description,
-      slug: category.slug,
-      includeInNav: category.includeInNav,
-    }));
-  }, [data]);
+    const navCategoriesCount = await tx
+      .select({ count: sql<number>`count(*)` })
+      .from(productCategory)
+      .where(
+        and(
+          eq(productCategory.deleted, false),
+          eq(productCategory.includeInNav, true)
+        )
+      );
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-4 py-12">
-        <div className="text-center">Loading...</div>
-      </div>
-    );
-  }
+    const productsCount = await tx
+      .select({ count: sql<number>`count(*)` })
+      .from(product)
+      .where(eq(product.deleted, false));
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-4 py-12">
-        <div className="text-center">
-          Failed to fetch data
-          {error.message}
-        </div>
-      </div>
-    );
-  }
+    // Assuming inventoryCount is numeric and low stock is < 10
+    const lowStockCount = await tx
+      .select({ count: sql<number>`count(*)` })
+      .from(product)
+      .where(
+        and(
+          eq(product.deleted, false),
+          lte(sql<number>`cast(${product.inventoryCount} as integer)`, 10)
+        )
+      );
+
+    return {
+      categories: categoriesCount[0].count,
+      navCategories: navCategoriesCount[0].count,
+      products: productsCount[0].count,
+      lowStock: lowStockCount[0].count,
+    };
+  });
+}
+
+// ... other imports remain the same
+
+const AdminDashboard = async () => {
+  const stats = await getStats();
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-semibold text-gray-900">Categories</h1>
-          <button
-            onClick={() => {
-              // Open modal or navigate to category creation form
-              console.log("Add Category");
-            }}
-            className="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors"
-          >
-            Add Category
-          </button>
-        </div>
+    <div className="p-8">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
+          <p className="mt-2 text-slate-600">
+            Manage your products and categories
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category) => (
-            <div
-              key={category.id}
-              className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex flex-col items-center hover:shadow-md transition-shadow"
-            >
-              {/* Image Section */}
-              <div className="flex flex-col items-center h-full">
-                <div className="border h-fit w-fit rounded-lg overflow-hidden">
-                  <Image
-                    src={category.imageUrl}
-                    alt={category.name}
-                    width={160}
-                    height={160}
-                    quality={90}
-                    className="object-cover"
-                  />
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Categories Card */}
+          <Link href="/projects/ecommerce-admin/categories">
+            <Card className="group cursor-pointer transition-all hover:shadow-lg">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-xl font-semibold">
+                    Categories
+                  </CardTitle>
+                  <Folders className="h-6 w-6 text-slate-600 transition-transform group-hover:scale-110" />
                 </div>
-
-                {/* Category Info */}
-                <div className="mt-4 text-left flex flex-col gap-4">
-                  <h2 className="text-lg font-semibold text-gray-900 truncate">
-                    Name: {category.name}
-                  </h2>
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    Description:{" "}
-                    {category.description || "No description provided."}
-                  </p>
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    Slug: {category.slug || "No slug provided."}
-                  </p>
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    Show In Navbar: {category.includeInNav ? "Yes" : "No"}
-                  </p>
+                <CardDescription>
+                  Manage product categories and collections
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>Total Categories</span>
+                    <span className="font-medium">{stats.categories}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>Active in Navigation</span>
+                    <span className="font-medium">{stats.navCategories}</span>
+                  </div>
                 </div>
+              </CardContent>
+            </Card>
+          </Link>
 
-                {/* Action Buttons */}
-                <div className="flex justify-between w-fit pt-4 mt-auto mb-4">
-                  <button
-                    onClick={() => {
-                      console.log(`View Products: ${category.id}`);
-                    }}
-                    className="flex-grow text-center mx-1 px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors"
-                  >
+          {/* Products Card */}
+          <Link href="/projects/ecommerce-admin/products">
+            <Card className="group cursor-pointer transition-all hover:shadow-lg">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-xl font-semibold">
                     Products
-                  </button>
-                  <button
-                    onClick={() => {
-                      console.log(`Edit Category: ${category.id}`);
-                    }}
-                    className="flex-grow text-center mx-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      console.log(`Delete Category: ${category.id}`);
-                    }}
-                    className="flex-grow text-center mx-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    Delete
-                  </button>
+                  </CardTitle>
+                  <Package2 className="h-6 w-6 text-slate-600 transition-transform group-hover:scale-110" />
                 </div>
-              </div>
-            </div>
-          ))}
+                <CardDescription>
+                  Manage your product inventory and details
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>Total Products</span>
+                    <span className="font-medium">{stats.products}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>Low Stock Items</span>
+                    <span className="font-medium">{stats.lowStock}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </div>
     </div>
