@@ -61,7 +61,7 @@ const AdminDashboard = async () => {
 
   return (
     <div className="p-8">
-      <div className="mx-auto max-w-7xl">
+      <div className="max-w-7xl">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
           <p className="mt-2 text-slate-600">

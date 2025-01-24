@@ -1,4 +1,3 @@
-// app/api/categories/[id]/route.ts
 import { db } from "@/lib/db/db";
 import { productCategory } from "@/schema";
 import { eq } from "drizzle-orm";
@@ -6,11 +5,13 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
+
     const category = await db.query.productCategory.findFirst({
-      where: eq(productCategory.id, params.id),
+      where: eq(productCategory.id, id),
     });
 
     if (!category) {

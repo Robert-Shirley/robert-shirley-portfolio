@@ -32,15 +32,17 @@ async function getCategory(id: string) {
 export default async function CategoryEditPage({
   params,
 }: CategoryEditPageProps) {
-  const category = await getCategory(params.id);
+  const { id } = await params;
+  const category = await getCategory(id);
   const title = category ? "Edit Category" : "New Category";
 
   return (
-    <div className="p-8">
-      <div className="mx-auto max-w-2xl">
-        <h1 className="text-3xl font-bold text-slate-900 mb-8">{title}</h1>
-        <CategoryForm initialData={category} />
-      </div>
+    <div className="p-8 w-full flex flex-col items-center">
+      <h1 className="text-3xl font-bold text-slate-900 mb-8 text-left">
+        {title}
+      </h1>
+
+      <CategoryForm initialData={category} />
     </div>
   );
 }
