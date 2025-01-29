@@ -20,6 +20,7 @@ const fetchData = async <TBody, UResponse>(
   const requestInit: RequestInit = {
     method: method || "GET",
     headers,
+    cache: "force-cache",
   };
   if (method !== "GET") requestInit.body = JSON.stringify(body);
 
