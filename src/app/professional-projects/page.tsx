@@ -244,14 +244,14 @@ export default function Home() {
 
         <div className="flex justify-center">
           <p className=" text-gray-700 w-2/3 text-lg text-left pt-4">
-            Currently, I'm employed as a sole Software Engineer at a Wasatch
-            Window Well Covers (Wasatch Covers). Wasatch Covers is a local Utah
-            small business that creates custom window well covers for basement
-            window wells. I started working here in June 2016 and have learned
-            and grown a ton. I've createt a time tracking app for managing
-            employee time and payroll, a custom CRM and order manager, and have
-            performed extensive work on the public ecommerce sites. The custom
-            CRM is built with NextJS, graphql, TailwindCSS, TypeScript,
+            Currently, I&apos;m employed as a sole Software Engineer at a
+            Wasatch Window Well Covers (Wasatch Covers). Wasatch Covers is a
+            local Utah small business that creates custom window well covers for
+            basement window wells. I started working here in June 2016 and have
+            learned and grown a ton. I&apos;ve created a time tracking app for
+            managing employee time and payroll, a custom CRM and order manager,
+            and have performed extensive work on the public ecommerce sites. The
+            custom CRM is built with NextJS, graphql, TailwindCSS, TypeScript,
             PostgreSQL, Prisma, and Codegen/Nexus. It has several custom
             external integrations, including a connection to our ecommerce sites
             to accept new orders, a connection to our payment processor
@@ -265,7 +265,7 @@ export default function Home() {
           </p>
         </div>
         <p className="text-center text-gray-700 italic text-lg">
-          The repositories for these sites are private, so I can't show the
+          The repositories for these sites are private, so I can&apos;t show the
           code. However, I can show screenshots of the sites and talk about the
           technologies used.
         </p>

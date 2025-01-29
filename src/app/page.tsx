@@ -32,14 +32,14 @@ const AboutMe = () => {
             {/* Intro Text */}
             <div className="text-white">
               <h1 className="text-4xl font-bold mb-4">
-                Hey, I'm Robert Shirley 👋
+                Hey, I&apos;m Robert Shirley 👋
               </h1>
               <p className="text-xl opacity-90 max-w-xl">
-                I'm a fullstack developer who loves working with startups and
-                small teams because I get to see the direct impact of my work on
-                people's lives. There's something special about building
-                something that makes someone's day a little better, even in
-                small ways.
+                I&apos;m a fullstack developer who loves working with startups
+                and small teams because I get to see the direct impact of my
+                work on people&apos;s lives. There&apos;s something special
+                about building something that makes someone&apos;s day a little
+                better, even in small ways.
               </p>
             </div>
           </div>
@@ -83,16 +83,16 @@ const AboutMe = () => {
               <h2 className="text-2xl font-bold">Currently</h2>
             </div>
             <p className="text-gray-600 mb-4">
-              Right now I'm working on a fieldwork tracker app for the BCBA
-              Masters Program at the Utah Valley University (UVU) that's making
-              life easier for both students and professors. Before, students had
-              to track all their stats and hours in spreadsheets - one wrong
-              formula and everything would break. Now they have a simple app
-              that automates the tedious stuff, and professors can actually see
-              their students' data without wrestling with mismatched
-              spreadsheets. It's these kinds of projects that keep me excited
-              about coding - when you can see how it directly helps people in
-              their day-to-day work.
+              Right now I&apos;m working on a fieldwork tracker app for the BCBA
+              Masters Program at the Utah Valley University (UVU) that&apos;s
+              making life easier for both students and professors. Before,
+              students had to track all their stats and hours in spreadsheets -
+              one wrong formula and everything would break. Now they have a
+              simple app that automates the tedious stuff, and professors can
+              actually see their students&apos; data without wrestling with
+              mismatched spreadsheets. It&apos;s these kinds of projects that
+              keep me excited about coding - when you can see how it directly
+              helps people in their day-to-day work.
             </p>
           </div>
         </div>
@@ -139,8 +139,9 @@ const AboutMe = () => {
                 Professional Work
               </h3>
               <p className="text-gray-600 mb-4">
-                Impact-driven solutions built at startups. See how I've helped
-                companies solve real problems and improve user experiences.
+                Impact-driven solutions built at startups. See how I&apos;ve
+                helped companies solve real problems and improve user
+                experiences.
               </p>
               <span className="text-blue-600 group-hover:underline">
                 View professional projects →
@@ -155,7 +156,8 @@ const AboutMe = () => {
               </h3>
               <p className="text-gray-600 mb-4">
                 Custom solutions crafted for specific client needs. From concept
-                to delivery, see how I've helped businesses achieve their goals.
+                to delivery, see how I&apos;ve helped businesses achieve their
+                goals.
               </p>
               <span className="text-purple-600 group-hover:underline">
                 View client projects →
@@ -170,8 +172,8 @@ const AboutMe = () => {
               </h3>
               <p className="text-gray-600 mb-4">
                 Explore my learning journey through The Odin Project and
-                personal experiments. See what I build when I'm following my
-                curiosity.
+                personal experiments. See what I build when I&apos;m following
+                my curiosity.
               </p>
               <span className="text-green-600 group-hover:underline">
                 View personal projects →
