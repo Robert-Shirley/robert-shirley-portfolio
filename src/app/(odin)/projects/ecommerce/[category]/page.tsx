@@ -1,6 +1,7 @@
 "use client";
 
 import Layout from "@/components/Ecommerce/Layout";
+import { getInventoryMessage } from "@/functions/getInventoryMessgage";
 import { useFetchData } from "@/hooks/useFetchData";
 import { Product } from "@/types/Ecommerce";
 import Image from "next/image";
@@ -8,30 +9,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
-export function getInventoryMessage(inventoryCount: number) {
-  if (inventoryCount === 0) {
-    return (
-      <span className="text-sm text-red-600 font-medium">Out of stock</span>
-    );
-  }
-  if (inventoryCount <= 20) {
-    return (
-      <span className="text-sm text-yellow-600 font-medium">
-        Order now! Only {inventoryCount} left!
-      </span>
-    );
-  }
-  return <span className="text-sm text-gray-500 font-medium">In stock</span>;
-}
-
 export default function CategoryPage() {
   const params = useParams();
   const category = params?.category as string;
 
-  // Fetch data only when category exists
   const { data, isLoading, error } = useFetchData(
-    category ? `/api/ecommerce/product?category=${category}` : "", // Add null check
-    [category] // Simplify cache key
+    category ? `/api/ecommerce/product?category=${category}` : "",
+    [category]
   );
 
   const products = useMemo(() => {
