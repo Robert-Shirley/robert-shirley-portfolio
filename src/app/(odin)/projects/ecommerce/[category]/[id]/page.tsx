@@ -2,6 +2,7 @@
 
 import Layout from "@/components/Ecommerce/Layout";
 import { useCart } from "@/context/CartContext";
+import { getInventoryMessage } from "@/functions/getInventoryMessgage";
 import { useToast } from "@/hooks/use-toast";
 import { useFetchData } from "@/hooks/useFetchData";
 import { Product } from "@/types/Ecommerce";
@@ -10,7 +11,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import { getInventoryMessage } from "../page";
 
 export default function ProductPage() {
   const params = useParams();
@@ -178,23 +178,37 @@ export default function ProductPage() {
                       Quantity:
                     </label>
 
-                    <input
-                      id="quantity"
-                      type="number"
-                      value={quantity}
-                      onChange={(e) =>
-                        setQuantity(
-                          Math.max(
-                            1,
-                            Math.min(+product.inventoryCount, +e.target.value)
+                    <div className="flex items-center border rounded-lg">
+                      {quantity > 0 && (
+                        <button
+                          onClick={() =>
+                            setQuantity(
+                              Math.max(
+                                1,
+                                Math.min(+product.inventoryCount, quantity - 1)
+                              )
+                            )
+                          }
+                          className="px-3 py-1 hover:bg-gray-100"
+                        >
+                          −
+                        </button>
+                      )}
+                      <span className="px-3 py-1">{quantity}</span>
+                      <button
+                        onClick={() =>
+                          setQuantity(
+                            Math.max(
+                              1,
+                              Math.min(+product.inventoryCount, quantity + 1)
+                            )
                           )
-                        )
-                      }
-                      className="w-16 border rounded-lg text-center"
-                      min="1"
-                      max={product.inventoryCount}
-                      disabled={+product.inventoryCount === 0}
-                    />
+                        }
+                        className="px-3 py-1 hover:bg-gray-100"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 )}
                 <button
