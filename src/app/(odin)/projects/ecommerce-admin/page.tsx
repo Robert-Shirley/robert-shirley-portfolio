@@ -1,3 +1,4 @@
+import RevalidateCacheButton from "@/components/EcommerceAdmin/RevalidateCacheButton";
 import {
   Card,
   CardContent,
@@ -68,6 +69,10 @@ const AdminDashboard = async () => {
             Manage your products and categories
           </p>
         </header>
+
+        <div>
+          <RevalidateCacheButton />
+        </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           {/* Categories Card */}
