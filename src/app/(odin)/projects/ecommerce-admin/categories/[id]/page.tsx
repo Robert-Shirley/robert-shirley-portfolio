@@ -1,15 +1,12 @@
-// app/admin/categories/[id]/page.tsx
 import { db } from "@/lib/db/db";
 import { productCategory } from "@/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { CategoryForm } from "../_components/category-form";
 
-interface CategoryEditPageProps {
-  params: {
-    id: string;
-  };
-}
+type Params = {
+  params: Promise<{ id: string }>;
+};
 
 async function getCategory(id: string) {
   if (id === "new") return null;
@@ -22,16 +19,14 @@ async function getCategory(id: string) {
 
   return {
     id: category.id,
-    name: category.name ?? "", // Provide default empty string
+    name: category.name ?? "",
     description: category.description,
-    includeInNav: category.includeInNav ?? false, // Provide default false
+    includeInNav: category.includeInNav ?? false,
     imageUrl: category.imageUrl,
   };
 }
 
-export default async function CategoryEditPage({
-  params,
-}: CategoryEditPageProps) {
+export default async function CategoryEditPage({ params }: Params) {
   const { id } = await params;
   const category = await getCategory(id);
   const title = category ? "Edit Category" : "New Category";
