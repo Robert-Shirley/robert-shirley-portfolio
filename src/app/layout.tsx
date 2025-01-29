@@ -7,12 +7,15 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "../components/ui/toaster";
 import { cn } from "../lib/utils";
 import Providers from "./providers";
-export const dynamic = "force-dynamic";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
+
+export const dynamicParams = true;
+export const dynamic = "force-static";
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: "Rob's Portfolio Site",
