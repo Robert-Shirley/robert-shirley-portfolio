@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Card, CardContent } from "../../../../../../components/ui/card";
 
 async function getCategories() {
-  return db.query.productCategory.findMany({
+  return await db.query.productCategory.findMany({
     where: eq(productCategory.deleted, false),
     orderBy: (categories, { desc }) => [desc(categories.createdAt)],
   });
