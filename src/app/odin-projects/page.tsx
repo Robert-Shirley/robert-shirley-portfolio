@@ -240,8 +240,7 @@ export default function Home() {
       <div>
         <h1 className="text-4xl text-center text-blue-500">Hello World</h1>
         <p className="text-center text-gray-500">
-          These are some projects that I&apos;ve done as part of the Odin
-          Project
+          These are some projects that I&apos;ve done. I hope you enjoy!
         </p>
         <p className="text-center text-gray-700 italic text-lg">
           You can click on &quot;Try It Out&quot; on a card to view the project,
@@ -252,7 +251,7 @@ export default function Home() {
       <div className="mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
           {projects &&
-            projects.map((project, index) => (
+            projects.map((project) => (
               <div key={project.id} className="md:animate-fadeInUp flex">
                 <ProjectRow project={project} />
               </div>

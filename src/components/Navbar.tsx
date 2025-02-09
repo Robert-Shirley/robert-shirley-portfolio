@@ -72,7 +72,7 @@ export default function Navbar() {
                     >
                       <span className="cursor-pointer">Personal Projects</span>
                     </Link>
-                    <Link
+                    {/* <Link
                       href="/professional-projects"
                       className={classNames(
                         "cursor-pointer inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900",
@@ -93,7 +93,7 @@ export default function Navbar() {
                       )}
                     >
                       <span className="cursor-pointer">Client Work</span>
-                    </Link>
+                    </Link> */}
                     {canShowHideButton && (
                       <button
                         onClick={() => setIsOpen(false)}
