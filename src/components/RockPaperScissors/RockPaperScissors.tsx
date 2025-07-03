@@ -8,7 +8,7 @@ const RockPaperScissors = ({ isComponent }: { isComponent: boolean }) => {
   const [losses, setLosses] = useState(0);
 
   const { toast } = useToast();
-
+  const fake = "fake";
   const [playerChoice, setPlayerChoice] = useState("");
   const [computerChoice, setComputerChoice] = useState("");
 
