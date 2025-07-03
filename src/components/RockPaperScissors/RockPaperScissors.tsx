@@ -11,7 +11,7 @@ const RockPaperScissors = ({ isComponent }: { isComponent: boolean }) => {
 
   const [playerChoice, setPlayerChoice] = useState("");
   const [computerChoice, setComputerChoice] = useState("");
-  const test = true;
+
   const [result, setResult] = useState("");
 
   const choices = ["rock", "paper", "scissors"];
