@@ -10,14 +10,11 @@ import { Fragment, useState } from "react";
 
 type Project = {
   id: number;
+  link: string;
   name: string;
   description: string;
-  link: string;
   images?: string[];
-  odinLink: string;
   showImages?: boolean;
-  showComponent?: boolean;
-  component?: JSX.Element | null;
   techStack: string[];
 };
 
@@ -156,10 +153,11 @@ const ProjectRow = ({ project }: { project: Project }) => {
           <div className="text-2xl font-bold mt-4">{project.name}</div>
           <Link
             href={project.link}
-            className="text-blue-500 font-bold text-xl cursor-pointer mt-4 underline"
+            className="mt-2 text-blue-500 hover:underline"
           >
-            Try It Out
+            View Project
           </Link>
+
           <p className="mt-2 text-center text-gray-700 max-w-lg">
             {project.description}
           </p>
@@ -210,20 +208,17 @@ const ProjectRow = ({ project }: { project: Project }) => {
       <Card className="h-full flex flex-col">
         <div className="w-full h-full flex items-center justify-start flex-col">
           <div className="text-2xl font-bold mt-4">{project.name}</div>
+          <Link
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 text-blue-500 hover:underline"
+          >
+            View
+          </Link>
           <p className="mt-2 text-center text-gray-700 max-w-lg">
             {project.description}
           </p>
-          <Link
-            href={project.link}
-            className="text-blue-500 font-bold text-xl cursor-pointer mt-4 underline"
-          >
-            Try It Out
-          </Link>
-          <h1 className="text-center my-2 text-lg text-gray-500">Or</h1>
-          <h1 className="text-center text-2xl text-orange-500 mb-2 italic rounded-lg px-2">
-            Interact Below!
-          </h1>
-          {project.showComponent && project.component}
         </div>
         {project.techStack && project.techStack.length > 0 && (
           <TechStack techStack={project.techStack} />
@@ -234,7 +229,102 @@ const ProjectRow = ({ project }: { project: Project }) => {
 };
 
 export default function Home() {
-  const projects: Project[] = [];
+  const projects: Project[] = [
+    {
+      id: 1,
+      link: "https://www.nef1.org/",
+      name: "National Energy Foundation Platform",
+      description:
+        "A nationwide educational platform connecting the National Energy Foundation with teachers to distribute energy safety learning materials to students. This comprehensive system serves thousands of users across the nation, facilitating the delivery of educational content about energy safety and conservation to classrooms nationwide.",
+      images: [],
+      showImages: false,
+      techStack: [
+        "Laravel PHP",
+        "NextJS",
+        "PostgreSQL",
+        "TailwindCSS",
+        "Docker",
+        "Eloquent ORM",
+        "Artisan CLI",
+        "Blade Templates",
+      ],
+    },
+    {
+      id: 2,
+      link: "https://www.swift-manager.com",
+      name: "Wasatch Covers Custom CRM",
+      description:
+        "A comprehensive customer relationship management system built for Wasatch Covers, a Utah-based small business specializing in custom window well covers. This full-featured CRM handles order management, customer communications, and business operations with extensive third-party integrations including ecommerce sites, payment processing (National Processor), QuickBooks Online, Klaviyo email marketing, Call Tracking Metrics for phone/SMS, Amazon AWS, and Google services (Sheets, Maps, Places). The system seamlessly connects with WordPress/Gatsby public sites and includes a companion React Native mobile app for field technicians.",
+      images: [],
+      showImages: false,
+      techStack: [
+        "NextJS",
+        "GraphQL",
+        "TailwindCSS",
+        "TypeScript",
+        "PostgreSQL",
+        "Prisma",
+        "Codegen/Nexus",
+        "React Native",
+      ],
+    },
+    {
+      id: 3,
+      name: "Wasatch Covers Ecommerce Website",
+      link: "https://wasatchcovers.com/",
+      description:
+        "A high-performance ecommerce website for Utah's leading custom window well cover manufacturer. The site showcases Wasatch Covers' industry-leading customer service and premium product offerings, featuring two distinct styles of window well covers: polycarbonate and steel options. Built with modern web technologies to deliver exceptional user experience, the platform integrates seamlessly with the company's custom CRM system and supports the business's commitment to quality with lifetime structural guarantees on all products.",
+      images: [],
+      showImages: false,
+      techStack: [
+        "Gatsby",
+        "JavaScript",
+        "TailwindCSS",
+        "WordPress",
+        "Docker",
+        "Linux Servers",
+      ],
+    },
+
+    {
+      id: 4,
+      link: "https://metacensus.org/",
+      name: "MetaCensus",
+      description:
+        "An innovative open-access blockchain-based platform revolutionizing scientific publications' peer-review and meta-analysis processes. Built on Hyperledger Fabric to ensure transparency and inclusivity, MetaCensus democratizes scientific research by allowing anyone to submit and review papers through a structured role-based system. The platform enables comprehensive meta-analyses by aggregating and scrutinizing related research, fostering trustworthy collaboration and scientific consensus. Features include distributed peer networks, comprehensive monitoring with Prometheus and Grafana, and chaincode-as-a-service architecture for scalable smart contract deployment.",
+      images: [],
+      showImages: false,
+      techStack: [
+        "Hyperledger Fabric",
+        "Node.js",
+        "Docker",
+        "Prometheus",
+        "Grafana",
+        "Chaincode",
+        "Raft Consensus",
+        "Certificate Authority",
+        "Blockchain",
+      ],
+    },
+    {
+      id: 5,
+      link: "https://knowyourforce.com/",
+      name: "Know Your Force",
+      description:
+        "A comprehensive community engagement platform designed to bridge the communication gap between law enforcement agencies and the communities they serve. The system enables agencies to easily gather citizen feedback through SMS and QR codes after every interaction, creating transparency and accountability. Features include a secure backend system for law enforcement administrators to review and filter feedback data, and a public-facing widget that allows communities to view survey results. The platform empowers agencies to build stronger community connections while ensuring every voice is heard in creating safer, more inclusive environments.",
+      images: [],
+      showImages: false,
+      techStack: [
+        "NextJS",
+        "GraphQL",
+        "TailwindCSS",
+        "TypeScript",
+        "PostgreSQL",
+        "Prisma",
+        "Codegen/Nexus",
+      ],
+    },
+  ];
   return (
     <div className="bg-white shadow-lg rounded-lg p-4 xl:p-10 flex flex-col border border-gray-200">
       <div>
@@ -244,30 +334,31 @@ export default function Home() {
 
         <div className="flex justify-center">
           <p className=" text-gray-700 w-2/3 text-lg text-left pt-4">
-            Currently, I&apos;m employed as a sole Software Engineer at a
-            Wasatch Window Well Covers (Wasatch Covers). Wasatch Covers is a
-            local Utah small business that creates custom window well covers for
-            basement window wells. I started working here in June 2016 and have
-            learned and grown a ton. I&apos;ve created a time tracking app for
-            managing employee time and payroll, a custom CRM and order manager,
-            and have performed extensive work on the public ecommerce sites. The
-            custom CRM is built with NextJS, graphql, TailwindCSS, TypeScript,
-            PostgreSQL, Prisma, and Codegen/Nexus. It has several custom
-            external integrations, including a connection to our ecommerce sites
-            to accept new orders, a connection to our payment processor
-            (National Processor), Quickbooks online, Klaviyo (email provider),
-            Call Tracking Metrics (phone and texting), Amazon AWS, Google
-            Sheets, Google Maps, Google Places, and more. The public sites are
-            hosted on Wordpress and are created with Gatsby. They integrate with
-            our social sites for ad analytics. I also created a custom React
-            Native app for our field technicians that connect to the custom CRM
-            database.
+            Currently, I&apos;m employed as a Software Engineer at{" "}
+            <Link
+              className="text-blue-600 underline"
+              href="https://bootpackdigital.com/"
+              target="_blank"
+            >
+              Bootpack Digital
+            </Link>
+            . Bootpack Digital is a local Utah business that creates custom
+            software solutions for various clients. Since I started working
+            here, I have learned and grown a ton. I&apos;ve worked a variety of
+            projects, including the National Energy Foundation, Know your Force,
+            Metacensus, Wasatch Covers, and more. Some of the technologies used
+            are: Laravel/PHP, NextJS, GraphQL, TailwindCSS, TypeScript,
+            Javascript, PostgreSQL, Prisma, Codegen/Nexus, and more. I have also
+            worked with various external integrations, including a connection to
+            our ecommerce sites to accept new orders, a connection to our
+            payment processor (National Processor), Quickbooks online, Klaviyo
+            (email provider), Call Tracking Metrics (phone and texting), AWS,
+            Google Sheets, Google Maps, and Google Places.
           </p>
         </div>
         <p className="text-center text-gray-700 italic text-lg">
           The repositories for these sites are private, so I can&apos;t show the
-          code. However, I can show screenshots of the sites and talk about the
-          technologies used.
+          code. However, I can discuss the technologies used.
         </p>
       </div>
       <div className="mt-6">

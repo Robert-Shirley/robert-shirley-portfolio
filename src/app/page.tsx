@@ -1,4 +1,3 @@
-import { GitContributions } from "@/components/About/GitContributions";
 import { Code, Gamepad2, Github, Monitor, Mountain, Tent } from "lucide-react";
 import Link from "next/link";
 
@@ -30,7 +29,6 @@ const AboutMe = () => {
               </div>
             </div>
 
-            {/* Intro Text - Adjusted spacing and font sizes */}
             <div className="text-white">
               <h1 className="text-3xl md:text-4xl font-bold mb-4">
                 Hey, I&apos;m Robert Shirley 👋
@@ -42,6 +40,16 @@ const AboutMe = () => {
                 about building something that makes someone&apos;s day a little
                 better, even in small ways.
               </p>
+              <div className="flex items-center gap-4 mt-6">
+                <Link href="https://github.com/Robert-Shirley" target="_blank">
+                  <span className="text-xs md:text-sm font-medium cursor-pointer pt-8">
+                    <Github className="w-5 h-5 md:w-6 md:h-6 inline-block mr-2" />
+                    <span className="underline text-white">
+                      My Github Profile
+                    </span>
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -67,6 +75,10 @@ const AboutMe = () => {
                 "TailwindCSS",
                 "Node.js",
                 "C++",
+                "Machine Learning",
+                "REST APIs",
+                "SQL",
+                "Docker",
               ].map((tech) => (
                 <div
                   key={tech}
@@ -149,7 +161,7 @@ const AboutMe = () => {
           My Work
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-16">
-          <Link href="/odin-projects" className="group">
+          <Link href="/personal-projects" className="group">
             <div className="bg-white rounded-2xl shadow-lg p-8 h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
               <h3 className="text-2xl font-bold mb-4 text-green-600">
                 Personal Projects
@@ -164,22 +176,34 @@ const AboutMe = () => {
               </span>
             </div>
           </Link>
-        </div>
-
-        {/* GitHub Activity - Improved mobile view */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8 md:mb-16">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
-            My GitHub Activity
-          </h2>
-          <Link href="https://github.com/Robert-Shirley" target="_blank">
-            <span className="text-gray-500 text-xs md:text-sm font-medium cursor-pointer">
-              <Github className="w-5 h-5 md:w-6 md:h-6 inline-block mr-2" />
-              <span className="text-blue-600">My Github Profile</span>
-            </span>
+          <Link href="/professional-projects" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+              <h3 className="text-2xl font-bold mb-4 text-blue-600">
+                Professional Projects
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Check out the projects I&apos;ve built for clients and
+                companies. These are the real-world applications of my skills.
+              </p>
+              <span className="text-blue-600 group-hover:underline">
+                View professional projects →
+              </span>
+            </div>
           </Link>
-          <div className="mt-4 h-fit bg-gray-50 rounded-lg flex items-center justify-center overflow-x-auto">
-            <GitContributions username="Robert-Shirley" />
-          </div>
+          <Link href="/client-projects" className="group">
+            <div className="bg-white rounded-2xl shadow-lg p-8 h-full *:transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+              <h3 className="text-2xl font-bold mb-4 text-purple-600">
+                Client Projects
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Discover the projects I&apos;ve worked on for clients, where I
+                apply my skills to solve real business problems.
+              </p>
+              <span className="text-purple-600 group-hover:underline">
+                View client projects →
+              </span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -62,7 +62,7 @@ export default function Navbar() {
                       <span className="cursor-pointer">Home</span>
                     </Link>
                     <Link
-                      href="/odin-projects"
+                      href="/personal-projects"
                       className={classNames(
                         "cursor-pointer inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900",
                         route === "/personal-projects"
@@ -72,7 +72,7 @@ export default function Navbar() {
                     >
                       <span className="cursor-pointer">Personal Projects</span>
                     </Link>
-                    {/* <Link
+                    <Link
                       href="/professional-projects"
                       className={classNames(
                         "cursor-pointer inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900",
@@ -93,7 +93,7 @@ export default function Navbar() {
                       )}
                     >
                       <span className="cursor-pointer">Client Work</span>
-                    </Link> */}
+                    </Link>
                     {canShowHideButton && (
                       <button
                         onClick={() => setIsOpen(false)}
@@ -124,7 +124,7 @@ export default function Navbar() {
                     Home
                   </Link>
                   <Link
-                    href="/odin-projects"
+                    href="/personal-projects"
                     onClick={() => close()}
                     className={classNames(
                       "block px-3 py-2 rounded-md text-base font-medium",
