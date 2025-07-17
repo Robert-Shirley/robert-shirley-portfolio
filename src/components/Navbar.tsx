@@ -136,11 +136,11 @@ export default function Navbar() {
                     Personal Projects
                   </Link>
                   <Link
-                    href="/about-project"
+                    href="/professional-projects"
                     onClick={() => close()}
                     className={classNames(
                       "block px-3 py-2 rounded-md text-base font-medium",
-                      route === "/about-project"
+                      route === "/professional-projects"
                         ? "bg-gray-50 text-gray-900"
                         : "text-gray-600 hover:bg-gray-50"
                     )}
@@ -148,11 +148,11 @@ export default function Navbar() {
                     Professional Work
                   </Link>
                   <Link
-                    href="/about-me"
+                    href="/client-projects"
                     onClick={() => close()}
                     className={classNames(
                       "block px-3 py-2 rounded-md text-base font-medium",
-                      route === "/about-me"
+                      route === "/client-projects"
                         ? "bg-gray-50 text-gray-900"
                         : "text-gray-600 hover:bg-gray-50"
                     )}
